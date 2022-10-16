@@ -5,10 +5,13 @@ import com.itheima.dao.AnimeInfoDao;
 import com.itheima.domain.AnimeInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.metrics.StartupStep;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 /**
@@ -26,8 +29,19 @@ public class AnimeInfoController {
     @Autowired
     private AnimeInfoDao animeInfoDao;
 
+    private volatile int count = 0;
+
     @GetMapping
     public String getInfo(){
+        count++;
+
+        LocalDateTime now = LocalDateTime.now();
+
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss");
+
+        String format = dateTimeFormatter.format(now);
+
+        System.out.println("有人在: "+format+" :>>> 访问了 第"+count+"次...");
 
         List<AnimeInfo> animeInfos = animeInfoDao.selectList(null);
 
