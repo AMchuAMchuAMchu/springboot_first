@@ -1,8 +1,15 @@
 package com.itheima.controller;
 
+import com.alibaba.fastjson2.JSON;
+import com.itheima.dao.AnimeInfoDao;
+import com.itheima.domain.AnimeInfo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.metrics.StartupStep;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * Description ==> TODO
@@ -16,11 +23,19 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class AnimeInfoController {
 
+    @Autowired
+    private AnimeInfoDao animeInfoDao;
+
     @GetMapping
     public String getInfo(){
 
+        List<AnimeInfo> animeInfos = animeInfoDao.selectList(null);
 
+        animeInfos.forEach(System.out::println);
 
+        String s = JSON.toJSON(animeInfos).toString();
+
+        return s;
 
 
     }
