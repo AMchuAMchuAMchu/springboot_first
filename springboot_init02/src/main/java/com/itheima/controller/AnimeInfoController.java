@@ -3,6 +3,7 @@ package com.itheima.controller;
 import com.alibaba.fastjson2.JSON;
 import com.itheima.dao.AnimeInfoDao;
 import com.itheima.domain.AnimeInfo;
+import jdk.nashorn.internal.ir.RuntimeNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.metrics.StartupStep;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -32,7 +34,7 @@ public class AnimeInfoController {
     private volatile int count = 0;
 
     @GetMapping
-    public String getInfo(){
+    public String getInfo(HttpServletRequest hsr){
         count++;
 
         LocalDateTime now = LocalDateTime.now();
@@ -41,7 +43,11 @@ public class AnimeInfoController {
 
         String format = dateTimeFormatter.format(now);
 
-        System.out.println("有人在: "+format+" :>>> 访问了 第"+count+"次...");
+        String authType = hsr.getAuthType();
+
+        String remoteUser = hsr.getRemoteUser();
+
+        System.out.println("有人在: "+format+" :>>> 访问了 第"+count+"次...authType::"+authType+"remoteUser::"+remoteUser);
 
         List<AnimeInfo> animeInfos = animeInfoDao.selectList(null);
 
