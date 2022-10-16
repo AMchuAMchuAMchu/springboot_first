@@ -34,7 +34,7 @@ public class AnimeInfoController {
     private volatile int count = 0;
 
     @GetMapping
-    public String getInfo(HttpServletRequest hsr){
+    public String getInfo(){
         count++;
 
         LocalDateTime now = LocalDateTime.now();
@@ -43,11 +43,7 @@ public class AnimeInfoController {
 
         String format = dateTimeFormatter.format(now);
 
-        String authType = hsr.getAuthType();
-
-        String remoteUser = hsr.getRemoteUser();
-
-        System.out.println("有人在: "+format+" :>>> 访问了 第"+count+"次...authType::"+authType+"remoteUser::"+remoteUser);
+        System.out.println("有人在: "+format+" :>>> 访问了 第"+count+"次...authType::");
 
         List<AnimeInfo> animeInfos = animeInfoDao.selectList(null);
 
