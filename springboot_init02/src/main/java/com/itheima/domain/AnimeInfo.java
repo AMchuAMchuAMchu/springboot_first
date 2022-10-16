@@ -15,7 +15,7 @@ public class AnimeInfo {
 
     private String name;
 
-    private Integer release_time;
+    private Integer releaseTime;
 
     private String character01;
 
